@@ -106,7 +106,9 @@ for (let i = 0; i < submissions.length; i++){
 
     if (learner === null){//if learner wasnt found, make one!
         learner ={
-          id:  learnerId
+          id:  learnerId,
+          totalPoints: 0,
+          totalPossible: 0
         };
         result.push(learner);
     }
@@ -135,14 +137,32 @@ for (let i = 0; i < submissions.length; i++){
 
             let percentage = score / pointsPossible;
 
+        
+
             learner [assignmentId] = percentage; //saving the learners score
+
+            learner.totalPoints += score;
+            learner.totalPossible += pointsPossible;
 
         }
     }
-
 }
+    //learner average after assignments are graded
+    for(let x = 0; x < result.length; x++){
+        result[x].avg = result[x].totalPoints / result[x].totalPossible;
 
-  return result;
+    }
+
+    //removing extra helper values because its not needed for final result 
+    for( let x = 0; x < result.length; x++){
+        delete result[x].totalPoints;
+        delete result[x].totalPossible;
+    }
+
+    return result;
+
+
+
 
    } catch (error){
     console.log(error)
