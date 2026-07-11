@@ -93,8 +93,9 @@ if(course.id !== ag.course_id){
   
 for (let i = 0; i < submissions.length; i++){
     let submission = submissions[i];
-    let learnerId = submission.learner_id;
+    let learnerId = submission.learner_id; //saving learner id to a easier var 
     let learner = null; //this should hold a the learner object. i think.
+    let assignmentId = submission.assignment_id; //saving assignment id to a easier var
 
     for(let x = 0; x < result.length; x++){// if learner was found in array, save it
         if(result[x].id === learnerId){
@@ -103,11 +104,32 @@ for (let i = 0; i < submissions.length; i++){
         }
     }
 
-    if (leanrer === null){//if learner wasnt found, make one!
-        leaner ={
+    if (learner === null){//if learner wasnt found, make one!
+        learner ={
           id:  learnerId
         };
         result.push(learner);
+    }
+    //For loop to find matching assignment
+    for (let x = 0; x < ag.assignments.length; x++){
+        let assignment = ag.assignments[x];
+
+        if(assignment.id === assignmentId){
+        
+            let today = new Date(); //creating date objects woo
+            let dueDate = new Date(assignment.due_at);
+
+            if(dueDate > today){//if due date is in the future, skip it!
+                continue;
+            }
+            let score = submission.submission.score; //uhhh.. kinda looks clunky testing to see if this works
+            let pointsPossible = assignment.points_possible;
+
+            let percentage = score / pointsPossible;
+
+            learner [assignmentId] = percentage; //saving the learners score
+
+        }
     }
 
 }
