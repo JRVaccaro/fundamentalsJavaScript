@@ -127,13 +127,35 @@ for (let i = 0; i < submissions.length; i++){
             let score = submission.submission.score; 
             let pointsPossible = assignment.points_possible;
 
+
+            //Makes sure points is a valid number and not 0
+            if (typeof pointsPossible !== "number" || pointsPossible === 0){
+                throw new Error("ERRM. Points must be a number and canot be a zero.")
+
+            }
+
+            //making sure score is a number
+
+            if(typeof score !== "number"){
+
+                throw new Error("HEY. THATS NOT A NUMBER. Score must be a number!");
+            }
+
             let submittedDate = new Date(submission.submission.submitted_at);
 
             //making the 10% late penalty
-            if(submittedDate > dueDate){
-                score = score -(pointsPossible * 0.10);
-            }
+            switch(true){
 
+           case submittedDate > dueDate:
+
+                score = score - (pointsPossible * 0.10);
+                break;
+
+                default:
+
+                    score = score;
+            }
+        
 
             let percentage = score / pointsPossible;
 
