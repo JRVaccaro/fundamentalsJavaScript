@@ -83,15 +83,42 @@ function getLearnerData(course, ag, submissions) {//This function is making sure
                                                 // if its a match, it keeps going, but if it DOESNT. you get an error 
   
   try {
+
 if(course.id !== ag.course_id){
-    throw new Error("This assignment group doesn't belong to this course!!!");
+    throw new Error("This assignment group doesn't belong to this course!!! Silly goose.");
 }
-  } catch (error){
+ 
+
+  let result = [];
+  
+for (let i = 0; i < submissions.length; i++){
+    let submission = submissions[i];
+    let learnerId = submission.learner_id;
+    let learner = null; //this should hold a the learner object. i think.
+
+    for(let x = 0; x < result.length; x++){// if learner was found in array, save it
+        if(result[x].id === learnerId){
+            learner = result[x];
+            break;//ends the loop so we dont gotta keep searching
+        }
+    }
+
+    if (leanrer === null){//if learner wasnt found, make one!
+        leaner ={
+          id:  learnerId
+        };
+        result.push(learner);
+    }
+
+}
+
+  return result;
+
+   } catch (error){
     console.log(error)
-  }
-  return[];
 
   
+}
 }
 
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
