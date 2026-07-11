@@ -122,8 +122,16 @@ for (let i = 0; i < submissions.length; i++){
             if(dueDate > today){//if due date is in the future, skip it!
                 continue;
             }
-            let score = submission.submission.score; //uhhh.. kinda looks clunky testing to see if this works
+            let score = submission.submission.score; 
             let pointsPossible = assignment.points_possible;
+
+            let submittedDate = new Date(submission.submission.submitted_at);
+
+            //making the 10% late penalty
+            if(submittedDate > dueDate){
+                score = score -(pointsPossible * 0.10);
+            }
+
 
             let percentage = score / pointsPossible;
 
